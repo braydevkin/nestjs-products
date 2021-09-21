@@ -1,7 +1,10 @@
+import * as fs from 'fs';
+
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
+
 import { CORS_WHITE_LIST, PORT } from './configs/constants';
 
 async function bootstrap() {
@@ -13,8 +16,11 @@ async function bootstrap() {
     .setVersion('1.0')
     .addTag('products')
     .build();
+
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  fs.writeFileSync('./swagger-docs.json', JSON.stringify(document));
+  SwaggerModule.setup('/docs', app, document);
+  SwaggerModule.setup('/', app, document);
 
   app.enableCors({
     origin: function(origin, callback) {
