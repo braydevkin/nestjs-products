@@ -9,4 +9,5 @@ export interface IMaterialService {
   readOne(id: string): Promise<IMaterial>;
   update(id: string, data: IMaterial): Promise<IMaterial>;
   delete(id: string): Promise<IMaterial>;
+  getMaterialOffStock(filter: Partial<IMaterial>): Promise<IMaterial>;
 }
