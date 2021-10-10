@@ -8,11 +8,11 @@ export class MaterialService {
     return 'This action adds a new material';
   }
 
-  findAll() {
+  readAll() {
     return `This action returns all material`;
   }
 
-  findOne(id: number) {
+  readOne(id: number) {
     return `This action returns a #${id} material`;
   }
 
@@ -20,7 +20,7 @@ export class MaterialService {
     return `This action updates a #${id} material`;
   }
 
-  remove(id: number) {
+  delete(id: number) {
     return `This action removes a #${id} material`;
   }
 }
