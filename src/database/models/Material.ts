@@ -8,7 +8,7 @@ import { IMaterial } from 'src/shared/interfaces/Material.interface';
 @Schema()
 export class Material implements IMaterial {
   @ApiProperty()
-  _id: Types.ObjectId;
+  _id?: Types.ObjectId;
 
   @ApiProperty({
     type: String,

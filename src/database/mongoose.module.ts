@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule as NestMongooseModule } from '@nestjs/mongoose';
 
 import { MONGOOSE_CONNECTION_STRING } from 'src/configs/constants';
+import { SeedsModule } from './seeds/seeds.module';
 
 @Module({
   imports: [
@@ -9,6 +10,7 @@ import { MONGOOSE_CONNECTION_STRING } from 'src/configs/constants';
       useCreateIndex: true,
       useFindAndModify: false,
     }),
+    SeedsModule,
   ],
 })
 export class MongooseModule {}
