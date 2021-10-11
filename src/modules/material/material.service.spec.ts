@@ -36,7 +36,7 @@ describe('MaterialService', () => {
   });
 
   describe('readAllMaterials', () => {
-    it('Should return all materials', async () => {
+    it('Should return a list of materials', async () => {
       const material = MaterialMock.giveMeAllMaterials();
       mockService.find.mockReturnValue([material]);
 
@@ -44,7 +44,19 @@ describe('MaterialService', () => {
 
       expect(mockService.find).toHaveBeenCalledTimes(1);
       expect(materials.length).toBe(1);
+    });
+
+    it('Should validate inputs', async () => {
+      const material = MaterialMock.giveMeAllMaterials();
+      mockService.find.mockReturnValue([material]);
+
       expect(material.name).toEqual('Verde Ubatuba');
+      expect(material.purchasePrice).toEqual(300);
+      expect(material.sellPrice).toEqual(450);
+      expect(material.shopID).toEqual('1');
+      expect(material.inStock).toEqual(5);
+      expect(material.onSale).toEqual(true);
+      expect(material.unitOfMeasurement).toEqual('m²');
     });
   });
 });
