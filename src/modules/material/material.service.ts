@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Material, MaterialDocument } from 'src/database/models/Material';
 import { CreateMaterialDto } from './dto/create-material.dto';
@@ -6,17 +7,20 @@ import { UpdateMaterialDto } from './dto/update-material.dto';
 
 @Injectable()
 export class MaterialService {
-  constructor(private materialModel: Model<MaterialDocument>) {}
-  create(createMaterialDto: CreateMaterialDto) {
-    return 'This action adds a new material';
+  constructor(
+    @InjectModel(Material.name)
+    private materialModel: Model<MaterialDocument>,
+  ) {}
+  async create(createMaterialDto: CreateMaterialDto) {
+    return this.create(createMaterialDto);
   }
 
   async createMany(data: Material[]): Promise<MaterialDocument[]> {
     return this.materialModel.create(data);
   }
 
-  readAll() {
-    return `This action returns all material`;
+  async readAll(filters: Partial<Material>) {
+    return this.materialModel.find(filters);
   }
 
   readOne(id: number) {

@@ -61,7 +61,7 @@ export class Material implements IMaterial {
     required: true,
   })
   @Prop({
-    type: Boolean,
+    type: Number,
     required: true,
   })
   sellPrice: number;

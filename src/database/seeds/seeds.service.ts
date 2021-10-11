@@ -27,7 +27,7 @@ export class SeedsService {
         shopID: String(faker.random),
       };
     });
-    await this.materialService.createMany(materials).then(created => {
+    await this.materialService.createMany(materials).then((created) => {
       console.log(`${created.length} successfully created products`);
     });
   }
