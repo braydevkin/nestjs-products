@@ -51,7 +51,7 @@
     "faker": "^5.5.3",
     "jest": "26.4.2",
     "mongodb-memory-server": "^7.4.3",
-    "nestjs-command": "^3.0.2",
+    "nestjs-command": "^2.0.0",
     "prettier": "^1.19.1",
     "supertest": "^4.0.2",
     "ts-jest": "26.2.0",
@@ -67,10 +67,13 @@
       "ts"
     ],
     "rootDir": "src",
-    "testRegex": ".spec.ts$",
+    "testRegex": ".*\\.spec\\.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
+    "collectCoverageFrom": [
+      "**/*.(t|j)s"
+    ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
   }
