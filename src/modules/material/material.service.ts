@@ -24,8 +24,8 @@ export class MaterialService {
     return materials;
   }
 
-  readOne(id: number) {
-    return `This action returns a #${id} material`;
+  async readOne(id: string): Promise<Material> {
+    return this.materialModel.findById(id);
   }
 
   update(id: number, updateMaterialDto: UpdateMaterialDto) {

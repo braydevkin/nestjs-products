@@ -1,4 +1,5 @@
 export interface IMaterial {
+  _id?: string;
   shopID: string;
   name: string;
   purchasePrice: number;

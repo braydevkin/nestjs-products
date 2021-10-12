@@ -12,7 +12,7 @@ describe('MaterialService', () => {
     create: jest.fn(),
     readOne: jest.fn(),
     find: jest.fn(),
-    update: jest.fn(),
+    findById: jest.fn(),
     delete: jest.fn(),
   };
 
@@ -57,6 +57,18 @@ describe('MaterialService', () => {
       expect(material.inStock).toEqual(5);
       expect(material.onSale).toEqual(true);
       expect(material.unitOfMeasurement).toEqual('m²');
+    });
+  });
+
+  describe('FindByIdMaterials', () => {
+    it('Should return a material by id', async () => {
+      const material = MaterialMock.giveMeAllMaterials();
+      mockService.findById.mockReturnValue(material);
+
+      const materialFound = await service.readOne(material._id);
+
+      expect(mockService.findById).toHaveBeenCalledTimes(1);
+      expect(materialFound).toMatchObject({ name: material.name });
     });
   });
 
