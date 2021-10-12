@@ -12,7 +12,7 @@ describe('MaterialService', () => {
     create: jest.fn(),
     readOne: jest.fn(),
     find: jest.fn(),
-    findById: jest.fn(),
+    findOne: jest.fn(),
     delete: jest.fn(),
   };
 
@@ -38,12 +38,12 @@ describe('MaterialService', () => {
   describe('readAllMaterials', () => {
     it('Should return a list of materials', async () => {
       const material = MaterialMock.giveMeAllMaterials();
-      mockService.find.mockReturnValue([material]);
+      mockService.find.mockReturnValue(material);
 
-      const materials = await service.readAll([material]);
+      const materials = await service.readAll(material);
 
       expect(mockService.find).toHaveBeenCalledTimes(1);
-      expect(materials.length).toBe(1);
+      expect(materials).toMatchObject({ name: material.name });
     });
 
     it('Should validate inputs', async () => {
@@ -63,11 +63,11 @@ describe('MaterialService', () => {
   describe('FindByIdMaterials', () => {
     it('Should return a material by id', async () => {
       const material = MaterialMock.giveMeAllMaterials();
-      mockService.findById.mockReturnValue(material);
+      mockService.findOne.mockReturnValue(material);
 
       const materialFound = await service.readOne(material._id);
 
-      expect(mockService.findById).toHaveBeenCalledTimes(1);
+      expect(mockService.findOne).toHaveBeenCalledTimes(1);
       expect(materialFound).toMatchObject({ name: material.name });
     });
   });
