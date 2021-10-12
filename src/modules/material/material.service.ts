@@ -12,15 +12,16 @@ export class MaterialService {
     private materialModel: Model<MaterialDocument>,
   ) {}
   async create(createMaterialDto: CreateMaterialDto) {
-    return this.create(createMaterialDto);
+    return this.materialModel.create(createMaterialDto);
   }
 
-  async createMany(data: Material[]): Promise<MaterialDocument[]> {
+  async createMany(data: Material[]): Promise<Material[]> {
     return this.materialModel.create(data);
   }
 
-  async readAll(filters: Partial<Material>) {
-    return this.materialModel.find(filters);
+  async readAll(filters: Partial<Material[]>): Promise<Material[]> {
+    const materials = this.materialModel.find(filters);
+    return materials;
   }
 
   readOne(id: number) {

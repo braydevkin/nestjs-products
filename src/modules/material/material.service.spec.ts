@@ -40,7 +40,7 @@ describe('MaterialService', () => {
       const material = MaterialMock.giveMeAllMaterials();
       mockService.find.mockReturnValue([material]);
 
-      const materials = await service.readAll(material);
+      const materials = await service.readAll([material]);
 
       expect(mockService.find).toHaveBeenCalledTimes(1);
       expect(materials.length).toBe(1);
@@ -57,6 +57,17 @@ describe('MaterialService', () => {
       expect(material.inStock).toEqual(5);
       expect(material.onSale).toEqual(true);
       expect(material.unitOfMeasurement).toEqual('m²');
+    });
+  });
+
+  describe('CreateMaterials', () => {
+    it('Should create materials and return in results', async () => {
+      const material = MaterialMock.giveMeAllMaterials();
+      mockService.create.mockReturnValue([material]);
+
+      await service.create(material);
+
+      expect(mockService.create).toHaveBeenCalledTimes(1);
     });
   });
 });
