@@ -25,11 +25,7 @@ export class MaterialService implements IMaterialService {
   }
 
   async readAll(filters: Partial<Material>): Promise<Material[]> {
-    const materials = this.materialModel.find(filters);
-    if((await materials).length == 0){
-      throw new NotFoundException('Material list is void')
-    }
-    return materials;
+     return await this.materialModel.find(filters);
   }
 
   async readOne(id: string): Promise<Material> {
