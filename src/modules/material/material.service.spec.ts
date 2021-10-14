@@ -14,13 +14,13 @@ describe('MaterialService', () => {
 
   const mockService = {
     create: jest.fn(),
-    readOne: jest.fn(),
     find: jest.fn(),
     findOne: jest.fn(),
     delete: jest.fn(),
+    update: jest.fn()
   };
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [getMongooseTestModule(), MaterialMongooseModule],
       providers: [
@@ -34,6 +34,14 @@ describe('MaterialService', () => {
 
     service = module.get<MaterialService>(MaterialService);
   });
+
+  beforeEach(()=> {
+    mockService.create.mockReset()
+    mockService.find.mockReset()
+    mockService.findOne.mockReset()
+    mockService.update.mockReset()
+    mockService.delete.mockReset()
+  })
 
   it('should be defined', () => {
     expect(service).toBeDefined();
