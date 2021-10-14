@@ -16,7 +16,7 @@ export class MaterialMongooseRepository
   ) {
     super(mongooseModel);
   }
-  async getMaterialOffStock(filters: Partial<IMaterial>): Promise<IMaterial> {
+  async getMaterialOffStock(filters: Partial<IMaterial>): Promise<IMaterial[]> {
     return this.mongooseModel.find({ inStock: filters.inStock }).lean();
   }
 }
