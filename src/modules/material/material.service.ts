@@ -1,6 +1,6 @@
 import { Model } from 'mongoose';
 
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { CreateMaterialDto } from './dto/create-material.dto';
@@ -26,11 +26,18 @@ export class MaterialService implements IMaterialService {
 
   async readAll(filters: Partial<Material>): Promise<Material[]> {
     const materials = this.materialModel.find(filters);
+    if((await materials).length == 0){
+      throw new NotFoundException('Material list is void')
+    }
     return materials;
   }
 
   async readOne(id: string): Promise<Material> {
-    return this.materialModel.findOne({}, id);
+     const material = await this.materialModel.findOne({}, id);
+     if(!material) {
+      throw new NotFoundException('Material Not Found')
+     }
+     return material
   }
 
   async getMaterialOffStock(filters: Partial<Material>): Promise<Material[]> {

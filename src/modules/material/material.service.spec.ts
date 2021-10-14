@@ -1,3 +1,4 @@
+import { NotFoundException } from '@nestjs/common';
 import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 
@@ -61,6 +62,14 @@ describe('MaterialService', () => {
       expect(material.onSale).toEqual(true);
       expect(material.unitOfMeasurement).toEqual('m²');
     });
+
+    it('Should return exception when list is avoid',  () => {
+      mockService.find.mockReturnValue([])
+      const materials =  service.readAll(null)
+      
+      expect(materials).rejects.toThrow(NotFoundException)
+      expect(mockService.find).toHaveBeenCalledWith(null)
+    })
   });
 
   describe('FindByIdMaterials', () => {
@@ -73,12 +82,20 @@ describe('MaterialService', () => {
       expect(mockService.findOne).toHaveBeenCalledTimes(1);
       expect(materialFound).toMatchObject({ name: material.name });
     });
+
+    it('Should return exception when material not found', () => {
+      mockService.findOne.mockReturnValue(null);
+      const material = service.readOne('3');
+
+      expect(material).rejects.toThrow(NotFoundException)
+      expect(mockService.findOne).toHaveBeenCalledWith({}, '3')
+    })
   });
 
   describe('CreateMaterials', () => {
     it('Should create materials and return in results', async () => {
       const material = MaterialMock.giveMeAllMaterials();
-      mockService.create.mockReturnValue([material]);
+      mockService.create.mockReturnValue(material);
 
       await service.create(material);
 
