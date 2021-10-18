@@ -8,12 +8,11 @@
   "husky": {
     "hooks": {
       "pre-commit": "echo 'Olá Mundo' ",
-      "pre-push": "",
+      "pre-push": "yarn test",
       "...": "..."
     }
   },
   "scripts": {
-    "prepare": "husky install",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
