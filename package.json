@@ -7,8 +7,8 @@
   "license": "UNLICENSED",
   "husky": {
     "hooks": {
-      "pre-commit": "echo 'Husky Test'",
-      "pre-push": "yarn test",
+      "pre-commit": "echo 'Olá Mundo' ",
+      "pre-push": "",
       "...": "..."
     }
   },
