@@ -8,6 +8,7 @@ import { MaterialMongooseModule } from './infrastructure/material.mongoose.modul
 @Module({
   imports: [MaterialMongooseModule],
   providers: [MaterialService],
-  exports: [MaterialService],
+  controllers: [MaterialController],
+  exports: [MaterialMongooseModule, MaterialService],
 })
 export class MaterialModule {}

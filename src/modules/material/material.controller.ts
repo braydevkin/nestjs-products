@@ -3,43 +3,48 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
+  Query,
+  Put
 } from '@nestjs/common';
 import { MaterialService } from './material.service';
 import { CreateMaterialDto } from './dto/create-material.dto';
 import { UpdateMaterialDto } from './dto/update-material.dto';
+import { IMaterial } from 'src/shared/interfaces/Material.interface';
+import { Material } from 'src/database/models/Material';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('materials')
 @Controller('material')
 export class MaterialController {
   constructor(private readonly materialService: MaterialService) {}
 
   @Post()
-  create(@Body() createMaterialDto: CreateMaterialDto) {
+  create(@Body() createMaterialDto: CreateMaterialDto) : Promise<Material> {
     return this.materialService.create(createMaterialDto);
   }
 
-  @Get()
-  findAll() {
-    return this.materialService.readAll();
+  @Get('/')
+  async findAll(@Query() filters: Material) : Promise<Material[]> {
+    return await this.materialService.readAll(filters);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.materialService.readOne(+id);
+  async findOne(@Param('id') id: string) : Promise<Material> {
+    return  await this.materialService.readOne(id);
   }
 
-  @Patch(':id')
-  update(
+  @Put(':id')
+  async update(
     @Param('id') id: string,
     @Body() updateMaterialDto: UpdateMaterialDto,
-  ) {
-    return this.materialService.update(+id, updateMaterialDto);
+  ) : Promise<Material> {
+    return await this.materialService.update(id, updateMaterialDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.materialService.delete(+id);
+    return this.materialService.delete(id);
   }
 }
