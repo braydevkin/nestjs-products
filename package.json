@@ -24,6 +24,13 @@
     "test:e2e": "jest --config ./test/jest-e2e.config.js",
     "generate": "plop"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit":"echo 'Husky Test'",
+      "pre-push": "yarn test",
+      "...": "..."
+    }
+  },
   "dependencies": {
     "@nestjs/common": "^7.6.15",
     "@nestjs/core": "^7.6.15",
@@ -96,11 +103,5 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit":"yarn yest",
-      "pre-push": "yarn test"
-    }
   }
 }
