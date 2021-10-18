@@ -1,6 +1,6 @@
 import { Model } from 'mongoose';
 
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { CreateMaterialDto } from './dto/create-material.dto';
@@ -16,8 +16,14 @@ export class MaterialService implements IMaterialService {
     @InjectModel(Material.name)
     private materialModel: Model<MaterialDocument>,
   ) {}
-  async create(createMaterialDto: CreateMaterialDto) {
-    return this.materialModel.create(createMaterialDto);
+  async create(createMaterialDto: CreateMaterialDto) : Promise<Material> {
+    const material = await this.materialModel.create(createMaterialDto);
+
+    if(!material){
+      throw new InternalServerErrorException('User cannot be created, try again')
+    }
+
+    return material
   }
 
   async createMany(data: Material[]): Promise<Material[]> {
@@ -44,12 +50,17 @@ export class MaterialService implements IMaterialService {
     id: string,
     updateMaterialDto: UpdateMaterialDto,
   ): Promise<Material> {
-    return this.materialModel.findByIdAndUpdate(id, updateMaterialDto, {
+    return await this.materialModel.findByIdAndUpdate(id, updateMaterialDto, {
       new: true,
     });
   }
 
-  async delete(id: string): Promise<Material> {
-    return this.materialModel.findByIdAndDelete(id);
+  async delete(id: string): Promise<boolean> {
+    const materialDeleted = await  this.materialModel.findByIdAndDelete(id);
+
+    if(materialDeleted){
+      return true
   }
+  return false
+}
 }

@@ -1,10 +1,14 @@
-import { NotFoundException } from '@nestjs/common';
+import {
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { getMongooseTestModule } from 'src/database/mock/db.mock';
 
 import { MaterialMongooseModule } from './infrastructure/material.mongoose.module';
+
 import { MaterialService } from './material.service';
 
 import MaterialMock from './mock';
@@ -16,8 +20,8 @@ describe('MaterialService', () => {
     create: jest.fn(),
     find: jest.fn(),
     findOne: jest.fn(),
-    delete: jest.fn(),
-    update: jest.fn()
+    findByIdAndDelete: jest.fn(),
+    findByIdAndUpdate: jest.fn(),
   };
 
   beforeAll(async () => {
@@ -35,13 +39,13 @@ describe('MaterialService', () => {
     service = module.get<MaterialService>(MaterialService);
   });
 
-  beforeEach(()=> {
-    mockService.create.mockReset()
-    mockService.find.mockReset()
-    mockService.findOne.mockReset()
-    mockService.update.mockReset()
-    mockService.delete.mockReset()
-  })
+  beforeEach(() => {
+    mockService.create.mockReset();
+    mockService.find.mockReset();
+    mockService.findOne.mockReset();
+    mockService.findByIdAndUpdate.mockReset();
+    mockService.findByIdAndDelete.mockReset();
+  });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
@@ -71,13 +75,13 @@ describe('MaterialService', () => {
       expect(material.unitOfMeasurement).toEqual('m²');
     });
 
-    it('Should return exception when list is avoid',  () => {
-      mockService.find.mockReturnValue([])
-      const materials =  service.readAll(null)
-      
-      expect(materials).rejects.toThrow(NotFoundException)
-      expect(mockService.find).toHaveBeenCalledWith(null)
-    })
+    it('Should return exception when list is avoid', () => {
+      mockService.find.mockReturnValue([]);
+      const materials = service.readAll(null);
+
+      expect(materials).rejects.toThrow(NotFoundException);
+      expect(mockService.find).toHaveBeenCalledWith(null);
+    });
   });
 
   describe('FindByIdMaterials', () => {
@@ -95,9 +99,9 @@ describe('MaterialService', () => {
       mockService.findOne.mockReturnValue(null);
       const material = service.readOne('3');
 
-      expect(material).rejects.toThrow(NotFoundException)
-      expect(mockService.findOne).toHaveBeenCalledWith({}, '3')
-    })
+      expect(material).rejects.toThrow(NotFoundException);
+      expect(mockService.findOne).toHaveBeenCalledWith({}, '3');
+    });
   });
 
   describe('CreateMaterials', () => {
@@ -105,9 +109,52 @@ describe('MaterialService', () => {
       const material = MaterialMock.giveMeAllMaterials();
       mockService.create.mockReturnValue(material);
 
-      await service.create(material);
+      const materailCreated = await service.create(material);
 
+      expect(materailCreated).toMatchObject(material);
+      expect(mockService.create).toHaveBeenCalledTimes(1);
+    });
+    it('Should return error if material not created', async () => {
+      const material = MaterialMock.giveMeAllMaterials();
+      mockService.create.mockReturnValue(material);
+
+      await service.create(material).catch((error) => {
+        expect(error).toBeInstanceOf(InternalServerErrorException);
+        expect(error).toMatchObject({
+          message: 'User cannot be created, try again',
+        });
+      });
       expect(mockService.create).toHaveBeenCalledTimes(1);
     });
   });
+
+  describe('UpdateMaterials', () => {
+    it('Should update material', async () => {
+      const material = MaterialMock.giveMeAllMaterials();
+      mockService.findByIdAndUpdate.mockReturnValue({
+        ...material,
+        name: 'New material' ,
+      });
+
+      const updateResult = await service.update('1', {
+        ...material,
+        name: 'New material',
+      });
+
+      expect(updateResult).toMatchObject({name: 'New material'});
+      expect(mockService.findByIdAndUpdate).toBeCalledTimes(1);
+    });
+  });
+
+  describe('DeleteMaterial', ()=> {
+    it('Should delete material',  async ()=> {
+      const material = MaterialMock.giveMeAllMaterials();
+      mockService.findByIdAndDelete.mockReturnValue(material)
+
+      const deletedMaterial = await service.delete(material._id)
+      
+      expect(deletedMaterial).toBe(true)
+      expect(mockService.findByIdAndDelete).toBeCalledTimes(1)
+    })
+  })
 });

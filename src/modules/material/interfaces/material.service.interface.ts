@@ -9,5 +9,5 @@ export interface IMaterialService extends IMaterialRepository {
   readAll(filters?: Partial<IMaterial>): Promise<IMaterial[]>;
   readOne(id: string): Promise<IMaterial>;
   update(id: string, data: IMaterial): Promise<IMaterial>;
-  delete(id: string): Promise<IMaterial>;
+  delete(id: string): Promise<boolean>;
 }
