@@ -8,13 +8,15 @@ import {
   Query,
   Put
 } from '@nestjs/common';
-import { MaterialService } from './material.service';
-import { CreateMaterialDto } from './dto/create-material.dto';
-import { UpdateMaterialDto } from './dto/update-material.dto';
-import { IMaterial } from 'src/shared/interfaces/Material.interface';
-import { Material } from 'src/database/models/Material';
 import { ApiTags } from '@nestjs/swagger';
 
+import { MaterialService } from './material.service';
+
+import { CreateMaterialDto } from './dto/create-material.dto';
+import { UpdateMaterialDto } from './dto/update-material.dto';
+
+
+import { Material } from 'src/database/models/Material';
 @ApiTags('materials')
 @Controller('material')
 export class MaterialController {

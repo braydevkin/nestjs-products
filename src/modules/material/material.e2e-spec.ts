@@ -1,11 +1,11 @@
 import { INestApplication } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
+
 import { Types } from 'mongoose'
-import { AppModule } from 'src/app.module'
-import { closeMongooseTestModule, getMongooseTestModule } from 'src/database/mock/db.mock'
 import * as request from 'supertest'
-import { MaterialMongooseModule } from './infrastructure/material.mongoose.module'
-import { MaterialController } from './material.controller'
+
+import { closeMongooseTestModule, getMongooseTestModule } from 'src/database/mock/db.mock'
+
 import { MaterialModule } from './material.module'
 import { MaterialService } from './material.service'
 
