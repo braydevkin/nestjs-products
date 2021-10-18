@@ -23,8 +23,8 @@ export class MaterialController {
   constructor(private readonly materialService: MaterialService) {}
 
   @Post()
-  create(@Body() createMaterialDto: CreateMaterialDto) : Promise<Material> {
-    return this.materialService.create(createMaterialDto);
+  async create(@Body() createMaterialDto: CreateMaterialDto) : Promise<Material> {
+    return await this.materialService.create(createMaterialDto);
   }
 
   @Get('/')
@@ -46,7 +46,7 @@ export class MaterialController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.materialService.delete(id);
+  async remove(@Param('id') id: string) {
+    return await this.materialService.delete(id);
   }
 }
