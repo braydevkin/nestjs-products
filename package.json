@@ -6,7 +6,7 @@
   "private": false,
   "license": "UNLICENSED",
   "scripts": {
-    "check": "husky",
+    "prepare": "husky install",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -99,7 +99,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn lint",
+      "pre-commit":"echo \"[Husky] pre-commit\"",
       "pre-push": "yarn test"
     }
   }
