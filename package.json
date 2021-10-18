@@ -99,7 +99,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit":"echo \"[Husky] pre-commit\"",
+      "pre-commit":"echo \"[Husky] yarn test\"",
       "pre-push": "yarn test"
     }
   }
