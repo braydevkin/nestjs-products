@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule as NestMongooseModule } from '@nestjs/mongoose';
 
-import { MONGOOSE_CONNECTION_STRING } from 'src/configs/constants';
+import { MONGOOSE_CONNECTION_STRING } from '../configs/constants';
 @Module({
   imports: [
     NestMongooseModule.forRoot(MONGOOSE_CONNECTION_STRING, {

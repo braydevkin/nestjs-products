@@ -23,8 +23,11 @@ async function bootstrap() {
   SwaggerModule.setup('/', app, document);
 
   app.enableCors({
-    origin: function(origin, callback) {
-      if (!origin || CORS_WHITE_LIST.some(domain => origin.includes(domain))) {
+    origin: function (origin, callback) {
+      if (
+        !origin ||
+        CORS_WHITE_LIST.some((domain) => origin.includes(domain))
+      ) {
         callback(null, true);
       } else {
         console.warn(`CORS: Blocking from origin ${origin}`);
@@ -37,7 +40,7 @@ async function bootstrap() {
   console.log(`Server running on the port ${PORT}`);
   console.log(`The documentation is acessible in /docs`);
   console.log(`CORS configured to accept request from: `);
-  CORS_WHITE_LIST.forEach(origin => {
+  CORS_WHITE_LIST.forEach((origin) => {
     console.log(`- ${origin}`);
   });
 

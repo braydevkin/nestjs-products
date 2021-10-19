@@ -6,7 +6,8 @@ import { IDatabaseRepository } from 'src/shared/repositories/database.repository
 
 @Injectable()
 export class MongooseRepository<Document extends MongooseDocument>
-  implements IDatabaseRepository<Document> {
+  implements IDatabaseRepository<Document>
+{
   public mongooseModel: Model<Document>;
   constructor(model: Model<Document>) {
     this.mongooseModel = model;
@@ -21,7 +22,7 @@ export class MongooseRepository<Document extends MongooseDocument>
   async create(data: Document): Promise<Document> {
     const created = await this.mongooseModel.create(data);
 
-    return (created.toJSON() as unknown) as Document;
+    return created.toJSON() as unknown as Document;
   }
   async update(id: string, data: Partial<Document>): Promise<Document> {
     return this.mongooseModel.findByIdAndUpdate(
@@ -35,10 +36,15 @@ export class MongooseRepository<Document extends MongooseDocument>
       },
     );
   }
-  async delete(id: string): Promise<Document> {
-    return this.mongooseModel.findByIdAndDelete(id, {
+  async delete(id: string): Promise<boolean> {
+    const result = this.mongooseModel.findByIdAndDelete(id, {
       new: true,
       lean: true,
     });
+
+    if (result) {
+      return true;
+    }
+    return false;
   }
 }
